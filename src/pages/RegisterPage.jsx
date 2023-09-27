@@ -1,10 +1,10 @@
-import React from 'react';
-import Nav from '../components/nav/nav';
-import Container from '../components/container/container';
-import Cookie from '../components/cookie/cookie';
-import Footer from '../components/footer/footer';
-import Register from '../components/register/register';
-import HeroSimple from '../components/hero/hero_simple';
+import React from "react";
+import Nav from "../components/nav/nav";
+import Container from "../components/container/container";
+import Cookie from "../components/cookie/cookie";
+import Footer from "../components/footer/footer";
+import Register from "../components/register/register";
+import HeroSimple from "../components/hero/hero_simple";
 
 export default function HomePage() {
   return (
@@ -14,9 +14,9 @@ export default function HomePage() {
         <Container>
           <Register />
         </Container>
-        <Cookie />
+        {/* <Cookie /> */}
       </section>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

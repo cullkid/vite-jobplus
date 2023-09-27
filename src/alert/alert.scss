@@ -1,0 +1,31 @@
+.alert {
+  padding: 28px;
+  max-width: 500px;
+  margin: 0 auto;
+
+  &--error {
+    background-color: #fee2e2;
+    border: 1px solid rgb(182, 52, 52);
+    color: rgb(199, 30, 30);
+  }
+
+  &--success {
+    background-color: rgb(187, 206, 187);
+    border: 1px solid rgb(123, 192, 123);
+    color: rgb(54, 158, 54);
+  }
+
+  &_message {
+    font-size: 16px;
+  }
+
+  &_details {
+    font-size: 14px;
+    list-style-type: disc;
+    padding-left: 20px;
+
+    li:first-child {
+      margin-top: 1px;
+    }
+  }
+}
