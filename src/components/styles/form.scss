@@ -14,7 +14,7 @@
     font-size: 16rem;
     color: var(--alpha);
   }
-  
+
   &--page {
     padding: 10rem;
 
@@ -60,9 +60,10 @@
     color: var(--light);
     font-weight: bold;
     padding: 8rem;
+    cursor: pointer;
   }
 
-  @include respond-to('small') {
+  @include respond-to("small") {
     display: flex;
     align-items: flex-end;
 

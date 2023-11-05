@@ -4,37 +4,31 @@ import "../styles/form.scss";
 import axios from "axios";
 import Alert from "../../alert/Alert";
 import { ParseError } from "../../utils/ParseError";
-import { useNavigate } from "react-router-dom";
 
-export default function login() {
-  const [identifier, setIdentifier] = useState("");
-  const [password, setPassword] = useState("");
+export default function ForgotPassword() {
+  const [email, setEmail] = useState("");
   const [alert, setAlert] = useState({});
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const data = {
-      identifier,
-      password,
+      email,
     };
 
     //post a request to backend
     try {
       const res = await axios.post(
-        "http://localhost:1337/api/auth/local",
+        "http://localhost:1337/api/auth/forgot-password",
         data
       );
 
-      setIdentifier("");
-      setPassword("");
+      setEmail("");
       setAlert({
-        message: "Logged in successfully",
+        message: "Please check yur email fr further instructions.",
         details: [],
         type: "success",
       });
-      navigate("/");
     } catch (err) {
       setAlert(ParseError(err));
     }
@@ -49,29 +43,17 @@ export default function login() {
             className="form__field"
             type="text"
             placeholder="Email"
-            value={identifier}
-            onChange={(e) => setIdentifier(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 
         <div className="form__group form__group--page">
-          <label className="form__label">Password</label>
-          <input
-            className="form__field"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-
-        <div className="form__group form__group--page">
-          <input className="form__btn" type="submit" value="Login" />
+          <input className="form__btn" type="submit" value="Submit" />
         </div>
 
         <footer>
-          Dont have an account? <Link to="/register">Register</Link> or
-          <Link to="/forgot-password"> Forgot Password</Link>
+          Remember password? <Link to="/login">Login</Link>
         </footer>
       </form>
     </>
