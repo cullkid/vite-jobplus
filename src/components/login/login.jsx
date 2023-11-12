@@ -4,6 +4,7 @@ import "../styles/form.scss";
 import Alert from "../../alert/Alert";
 import { useNavigate } from "react-router-dom";
 import { useApi } from "../../hooks/useApi";
+import cookie from "js-cookie";
 
 export default function login() {
   const [identifier, setIdentifier] = useState("");
@@ -13,7 +14,10 @@ export default function login() {
   const navigate = useNavigate();
   const { post } = useApi();
 
-  const handleSuccess = () => {
+  const handleSuccess = (res) => {
+    //set and save ookie to the machine
+    cookie.set("jobplus-token", res.data.jwt, { expires: 4 / 24 }); //expires in 4 hours
+
     setIdentifier("");
     setPassword("");
     navigate("/");
@@ -29,7 +33,7 @@ export default function login() {
 
     await post("auth/local", {
       data: data,
-      onSuccess: () => handleSuccess(), //call back handlesuccess function
+      onSuccess: (res) => handleSuccess(res), //call back handlesuccess function
       onFailure: (err) => setAlert(err),
     });
   };
