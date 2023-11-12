@@ -2,9 +2,9 @@ import { useState } from "react";
 import React from "react";
 import "../styles/form.scss";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import { ParseError } from "../../utils/ParseError";
 import Alert from "../../alert/Alert";
+import { useApi } from "../../hooks/useApi";
+import { useNavigate } from "react-router-dom";
 
 export default function register() {
   const [firstName, setFirstName] = useState("");
@@ -13,6 +13,22 @@ export default function register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [alert, setAlert] = useState({});
+
+  const navigate = useNavigate();
+  const { post } = useApi();
+
+  const handleSuccess = () => {
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPassword("");
+    navigate("/login");
+    setAlert({
+      message: "Account Created Successfully",
+      details: [],
+      type: "success",
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,29 +50,11 @@ export default function register() {
       username: email,
     };
 
-    try {
-      //make user post request to strapi
-      const res = await axios.post(
-        "http://localhost:1337/api/auth/local/register",
-        data
-      );
-
-      //reset the user inut
-      setFirstName("");
-      setLastName("");
-      setEmail("");
-      setPassword("");
-      setConfirmPassword("");
-      setAlert({
-        message: "Account Created Successfully",
-        details: [],
-        type: "success",
-      });
-    } catch (err) {
-      setAlert(ParseError(err));
-      console.log(ParseError(err));
-      console.log(err);
-    }
+    await post("auth/local/register", {
+      data: data,
+      onSuccess: () => handleSuccess(), //call back handlesuccess function
+      onFailure: (err) => setAlert(err),
+    });
   };
 
   return (

@@ -1,13 +1,23 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/form.scss";
-import axios from "axios";
 import Alert from "../../alert/Alert";
-import { ParseError } from "../../utils/ParseError";
+import { useApi } from "../../hooks/useApi";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [alert, setAlert] = useState({});
+
+  const { post } = useApi();
+
+  const handleSuccess = () => {
+    setEmail("");
+    setAlert({
+      message: "Please check your email for further instructions.",
+      details: [],
+      type: "success",
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,23 +26,13 @@ export default function ForgotPassword() {
       email,
     };
 
-    //post a request to backend
-    try {
-      const res = await axios.post(
-        "http://localhost:1337/api/auth/forgot-password",
-        data
-      );
-
-      setEmail("");
-      setAlert({
-        message: "Please check yur email fr further instructions.",
-        details: [],
-        type: "success",
-      });
-    } catch (err) {
-      setAlert(ParseError(err));
-    }
+    await post("auth/forgot-password", {
+      data: data,
+      onSuccess: () => handleSuccess(), //call back handlesuccess function
+      onFailure: (err) => setAlert(err),
+    });
   };
+
   return (
     <>
       <Alert data={alert} />
