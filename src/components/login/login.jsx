@@ -5,6 +5,7 @@ import Alert from "../../alert/Alert";
 import { useNavigate } from "react-router-dom";
 import { useApi } from "../../hooks/useApi";
 import cookie from "js-cookie";
+import { useAuth } from "../../context/AuthContext";
 
 export default function login() {
   const [identifier, setIdentifier] = useState("");
@@ -13,6 +14,7 @@ export default function login() {
 
   const navigate = useNavigate();
   const { post } = useApi();
+  const { setIsAuthenticated } = useAuth();
 
   const handleSuccess = (res) => {
     //set and save ookie to the machine
@@ -20,6 +22,7 @@ export default function login() {
 
     setIdentifier("");
     setPassword("");
+    setIsAuthenticated(true);
     navigate("/");
   };
 
