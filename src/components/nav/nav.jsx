@@ -1,6 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-
+import React from "react";
+import { Link } from "react-router-dom";
+import { useCookie } from "../../hooks/useCookie";
 import {
   Hamburger,
   Magnify,
@@ -8,11 +8,12 @@ import {
   Saved,
   Profile,
   Exit,
-} from '../images';
-
-import './nav.scss';
+} from "../images";
+import "./nav.scss";
 
 export default function nav() {
+  const { deleteAuthCookie } = useCookie();
+
   return (
     <nav className="nav">
       <input type="checkbox" className="nav__toggle" id="hamburger" hidden />
@@ -50,7 +51,7 @@ export default function nav() {
           </Link>
         </li>
         <li>
-          <Link to="/login">
+          <Link to="/login" onClick={deleteAuthCookie}>
             <img src={Exit} alt="" />
           </Link>
         </li>

@@ -4,7 +4,7 @@ import "../styles/form.scss";
 import Alert from "../../alert/Alert";
 import { useNavigate } from "react-router-dom";
 import { useApi } from "../../hooks/useApi";
-import cookie from "js-cookie";
+import { useCookie } from "../../hooks/useCookie";
 import { useAuth } from "../../context/AuthContext";
 
 export default function login() {
@@ -15,10 +15,11 @@ export default function login() {
   const navigate = useNavigate();
   const { post } = useApi();
   const { setIsAuthenticated } = useAuth();
+  const { saveAuthCookie } = useCookie();
 
   const handleSuccess = (res) => {
-    //set and save ookie to the machine
-    cookie.set("jobplus-token", res.data.jwt, { expires: 4 / 24 }); //expires in 4 hours
+    //set and save cookie to the machine
+    saveAuthCookie(res.data.jwt);
 
     setIdentifier("");
     setPassword("");
