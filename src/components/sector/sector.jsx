@@ -1,20 +1,51 @@
-import React from 'react';
-import './sector.scss';
+import React, { useEffect, useState } from "react";
+import "./sector.scss";
 
-import { 
+import {
   TechBig,
   TechSmall,
   EngBig,
   EngSmall,
   HealthBig,
   HealthSmall,
-} from '../images';
+} from "../images";
+import { useApi } from "../../hooks/useApi";
 
-export default function sector() {
+// export default function
+const sector = () => {
+  const [title, setTitle] = useState("");
+  const [subTitle, setSubTitle] = useState("");
+  const [sectors, setSectors] = useState([]);
+
+  const { get } = useApi();
+
+  const handleSuccess = (res) => {
+    setTitle(res.data.data.data.attributes.tittle);
+    setSubTitle(res.data.data.attributes.subTittle);
+    setSectors(res.data.data.attributes.sectors.data);
+  };
+
+  console.log(handleSuccess);
+
+  const fetchHomeSector = async () => {
+    await get("home-sector", {
+      onSuccess: (res) => console.log(res),
+      params: {
+        "populate[sectors][populate][categories][populate][jobs]": true,
+        "populate[sectors][populate][smallImage]": true,
+        "populate[sectors][populate][bigImage]": true,
+      },
+    });
+  };
+
+  useEffect(() => {
+    fetchHomeSector();
+  }, []);
+
   return (
     <div className="sector">
-      <h2>Choose your sector</h2>
-      <p>jobs across multiple sectors. See the latest roles now</p>
+      <h2>{title}ee</h2>
+      <p>{subTitle}</p>
 
       <div className="sector__types">
         <div className="sector__wrap">
@@ -43,7 +74,36 @@ export default function sector() {
           </ul>
         </div>
 
-        <div className="sector__wrap">
+        <a href="">
+          <div className="sector__browse">Browse all sectors</div>
+        </a>
+
+        <ul className="sector__mlist">
+          <li>
+            <a href="">
+              Accountancy jobs <span>5, 757</span>
+            </a>
+          </li>
+          <li>
+            <a href="">
+              Acturial jobs <span>5, 757</span>
+            </a>
+          </li>
+          <li>
+            <a href="">
+              Admin, Secretarial jobs <span>5, 757</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+export default sector;
+
+{
+  /* <div className="sector__wrap">
           <picture className="sector__picture">
             <source srcSet={EngBig} media="(min-width: 767px)" />
             <source srcSet={EngSmall} />
@@ -93,30 +153,5 @@ export default function sector() {
               </a>
             </li>
           </ul>
-        </div>
-
-        <a href="">
-          <div className="sector__browse">Browse all sectors</div>
-        </a>
-
-        <ul className="sector__mlist">
-          <li>
-            <a href="">
-              Accountancy jobs <span>5, 757</span>
-            </a>
-          </li>
-          <li>
-            <a href="">
-              Acturial jobs <span>5, 757</span>
-            </a>
-          </li>
-          <li>
-            <a href="">
-              Admin, Secretarial jobs <span>5, 757</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  );
+        </div> */
 }
