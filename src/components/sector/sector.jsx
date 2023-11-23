@@ -25,11 +25,11 @@ const sector = () => {
     setSectors(res.data.data.attributes.sectors.data);
   };
 
-  console.log(handleSuccess);
+  console.log("title", title);
 
   const fetchHomeSector = async () => {
     await get("home-sector", {
-      onSuccess: (res) => console.log(res),
+      onSuccess: (res) => handleSuccess(res),
       params: {
         "populate[sectors][populate][categories][populate][jobs]": true,
         "populate[sectors][populate][smallImage]": true,
