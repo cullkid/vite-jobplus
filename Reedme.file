@@ -1,0 +1,18 @@
+IN sector.jsx => {
+Note: when returning data in map array function, we have implecite and explecite.
+
+IMPLECITE e.g => {sectors.map((setor) => (
+    ........ your block cod
+))};
+In this code i used round bracket after the arow function which returned 
+the data directly without a retur keyword, and there we cannot console 
+the sectors to view the data it contains
+
+EXPLECITE eg => {sectors.map((setor) => {
+    return (
+        console.log(sector)
+    ........ your block code
+    )})};
+    In here, i used the return keyword with the bracket to make the data to be 
+    returned, and there we can console the sectors to view the data it contains
+}
